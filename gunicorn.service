@@ -1,0 +1,14 @@
+[Unit]
+Description=demo fastapi application
+After=network.target #telling it to wait till after the network to start the api
+
+[Service]
+User=busola
+Group=busola
+WorkingDirectory=/home/busola/app/src/ #get this by cd ~ then cd app/ then cd src/ then  pwd ie get home directory then press pwd
+Environment="PATH=/home/busola/app/venv/bin"  #so we can run gunicorn in virtual env. get this by cd .. then cd venv/ then cd bin/ then pwd
+EnvironmentFile=/home/busola/.env
+ExecStart=/home/busola/app/venv/bin/gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:8000 #get this like the bin folder youre in just above and press ls (sortfof)
+
+[Install]
+WantedBy=multi-user.target
